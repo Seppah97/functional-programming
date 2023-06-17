@@ -1,7 +1,19 @@
 charsDivisibleBy :: Int -> [Char] -- given a number n, returns all the characters that have a number divisible by n.
 
+
+charsDivisibleBy 0 = []
 charsDivisibleBy num = [numToLetter x | x <- [1..26], x `mod` num == 0]
 
+
+charsProductOf :: [Int] -> [Char] -- given a list of numbers ns, returns all the characters that have a number that is a product of any two numbers in ns. 
+-- You may assume that each number only appears in the list once.
+
+charsProductOf nums = [numToLetter x | x <- [1..26], x `elem` calculateProducts nums]
+
+calculateProducts :: [Int] -> [Int]
+calculateProducts numbers = concat [[x * y | y <- removeOne x numbers] | x <- numbers]
+  where
+    removeOne x = filter (/= x)
 
 numToLetter :: Int -> Char
 
@@ -32,9 +44,5 @@ numToLetter num
     | num == 24 = 'x'
     | num == 25 = 'y'
     | num == 26 = 'z'
+    | otherwise = ' '
 
-
-charsProductOf :: [Int] -> [Char] -- given a list of numbers ns, returns all the characters that have a number that is a product of any two numbers in ns. 
--- You may assume that each number only appears in the list once.
-
-charsProductOf [] = []
